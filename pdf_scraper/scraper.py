@@ -61,18 +61,24 @@ def getPath():
     '''
     # Check the users input for a working path
     while True:
-        # Note: Python 2.x users should use raw_input, the equivalent of 3.x's input
-        filepath = input('Enter the path where your CSV is located: ')
-        try:
-            open(filepath, 'r')
-        except:
-            if filepath == 'example':
-                print('E.g. /Users/alex/Documents/scraper/example.csv')
-            else:
-                print('The path is incorrect. Please try again.')
+        print("Enter the path where your CSV is located")
+        print("(Type 'h' for help)")
+        filepath = input('Path: ')
+        if filepath == 'h':
+            print('')
+            print('Example: /Users/joe/Desktop/list_of_urls.csv')
+            print('')
             continue
-
-        break
+        else:
+            try:
+                fh = open(filepath, 'r')
+                break
+            except IOError:
+                print('Cannot open ', filepath)
+                continue
+            else:
+                # Close the file after correct input
+                fh.close()
 
     return filepath
 
@@ -158,6 +164,7 @@ def singleURLScrape():
     filepath = filepath + '/' + filename
     with open(filepath,'wb') as f:
         f.write(r.content)
+        f.close()
 
 def run():
     #===================Program Start====================================#
@@ -184,3 +191,6 @@ def run():
     # End Program
     print('Done!')
     #====================================================================#
+    
+    
+run()
